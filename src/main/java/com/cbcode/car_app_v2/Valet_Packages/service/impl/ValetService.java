@@ -1,9 +1,9 @@
 package com.cbcode.car_app_v2.Valet_Packages.service.impl;
 
-import com.cbcode.car_app_v2.Enums.CarStatus;
 import com.cbcode.car_app_v2.Enums.JobStatus;
 import com.cbcode.car_app_v2.Exceptions.CarAlreadyExistsException;
 import com.cbcode.car_app_v2.Exceptions.ValetNotSavedException;
+import com.cbcode.car_app_v2.Valet_Packages.model.DTO.ValetCompletedDto;
 import com.cbcode.car_app_v2.Valet_Packages.model.DTO.ValetDto;
 import com.cbcode.car_app_v2.Valet_Packages.model.Valet;
 import com.cbcode.car_app_v2.Valet_Packages.model.ValetCompleted;
@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
 @Service
 public class ValetService implements IValetService {
     private final ValetRepository valetRepository;
-    private final ValetCompletedRepository valetCompletedRepository;
+    private final ValetCompletedService valetCompletedService;
     private final ModelMapper modelMapper;
 
-    public ValetService(ValetRepository valetRepository, ModelMapper modelMapper, ValetCompletedRepository valetCompletedRepository) {
+    public ValetService(ValetRepository valetRepository, ModelMapper modelMapper,  ValetCompletedService valetCompletedService) {
         this.valetRepository = valetRepository;
         this.modelMapper = modelMapper;
-        this.valetCompletedRepository = valetCompletedRepository;
+        this.valetCompletedService = valetCompletedService;
     }
 
     /**
@@ -193,19 +193,23 @@ public class ValetService implements IValetService {
     @Override
     public ValetDto finishingValet(ValetDto valetDto) {
         Valet valet = modelMapper.map(valetDto, Valet.class);
-        if (valet.getJobStatus() == JobStatus.STARTS) {
+        Optional<Valet> optionalValet = valetRepository.findById(valet.getId());
+        System.out.println(optionalValet);
+        if (optionalValet.get().getJobStatus() == JobStatus.STARTS) {
 
             valet.setJobStatus(JobStatus.FINISHED);
-
             valetRepository.save(valet);
 
             ValetCompleted valetCompleted = modelMapper.map(valet, ValetCompleted.class);
+            ValetCompletedDto valetCompletedDto = modelMapper.map(valetCompleted, ValetCompletedDto.class);
 
-            //valetCompleted.setValet(valet); // This is not needed because we are using the same object for both entities.
-            valetCompleted.setDateCreated(LocalDateTime.now());
-            valetCompletedRepository.save(valetCompleted);
+            valetCompletedDto.setDateCreated(LocalDateTime.now());
+            if (valetCompleted != null){
+                valetCompletedService.addValetCompleted(valetCompletedDto);
 
-            valetRepository.deleteById(valet.getId());
+                valetRepository.deleteById(valet.getId());
+
+            }
 
             return modelMapper.map(valet, ValetDto.class);
         } else {

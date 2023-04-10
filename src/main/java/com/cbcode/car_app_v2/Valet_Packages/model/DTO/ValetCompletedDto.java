@@ -1,20 +1,15 @@
-package com.cbcode.car_app_v2.Valet_Packages.model;
+package com.cbcode.car_app_v2.Valet_Packages.model.DTO;
 
 import com.cbcode.car_app_v2.Enums.CarStatus;
 import com.cbcode.car_app_v2.Enums.JobStatus;
-import com.cbcode.car_app_v2.User_Packages.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity(name = "Valet")
-@Table(name = "valet")
-@SequenceGenerator(name = "valet_seq", sequenceName = "valet_seq", allocationSize = 1)
-public class Valet {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "valet_seq")
+public class ValetCompletedDto {
     private Long id;
     private String brand; // brand of the car
     private String model; // model of the car
@@ -34,17 +29,16 @@ public class Valet {
     private JobStatus jobStatus; // job status of the car is STARTS or FINISHED.
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus; // status of the car in the process of works to be done.
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime dateCreated; // date when the car sold will be handed over to the customer
 
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private User user;
-
-    public Valet() {
+    public ValetCompletedDto() {
     }
 
-    public Valet(String brand, String model, String color, String regNumber, String chassisNumber, Integer keysNumber, String customerName,
-                 JobStatus jobStatus, boolean g3ProtectionRequired, String valetComments, boolean polishMachineRequired, Date dateRequired,
-                 CarStatus carStatus) {
+    public ValetCompletedDto(Long id, String brand, String model, String color, String regNumber, String chassisNumber, Integer keysNumber,
+                             String customerName, boolean g3ProtectionRequired, boolean polishMachineRequired, String valetComments,
+                             Date dateRequired, JobStatus jobStatus, CarStatus carStatus, LocalDateTime dateCreated) {
+        this.id = id;
         this.brand = brand;
         this.model = model;
         this.color = color;
@@ -52,12 +46,13 @@ public class Valet {
         this.chassisNumber = chassisNumber;
         this.keysNumber = keysNumber;
         this.customerName = customerName;
-        this.jobStatus = jobStatus;
         this.g3ProtectionRequired = g3ProtectionRequired;
-        this.valetComments = valetComments;
         this.polishMachineRequired = polishMachineRequired;
+        this.valetComments = valetComments;
         this.dateRequired = dateRequired;
+        this.jobStatus = jobStatus;
         this.carStatus = carStatus;
+        this.dateCreated = dateCreated;
     }
 
     public Long getId() {
@@ -124,20 +119,20 @@ public class Valet {
         this.customerName = customerName;
     }
 
-    public JobStatus getJobStatus() {
-        return jobStatus;
-    }
-
-    public void setJobStatus(JobStatus jobStatus) {
-        this.jobStatus = jobStatus;
-    }
-
-    public boolean getG3ProtectionRequired() {
+    public boolean isG3ProtectionRequired() {
         return g3ProtectionRequired;
     }
 
     public void setG3ProtectionRequired(boolean g3ProtectionRequired) {
         this.g3ProtectionRequired = g3ProtectionRequired;
+    }
+
+    public boolean isPolishMachineRequired() {
+        return polishMachineRequired;
+    }
+
+    public void setPolishMachineRequired(boolean polishMachineRequired) {
+        this.polishMachineRequired = polishMachineRequired;
     }
 
     public String getValetComments() {
@@ -148,20 +143,20 @@ public class Valet {
         this.valetComments = valetComments;
     }
 
-    public boolean getPolishMachineRequired() {
-        return polishMachineRequired;
-    }
-
-    public void setPolishMachineRequired(boolean polishMachineRequired) {
-        this.polishMachineRequired = polishMachineRequired;
-    }
-
     public Date getDateRequired() {
         return dateRequired;
     }
 
     public void setDateRequired(Date dateRequired) {
         this.dateRequired = dateRequired;
+    }
+
+    public JobStatus getJobStatus() {
+        return jobStatus;
+    }
+
+    public void setJobStatus(JobStatus jobStatus) {
+        this.jobStatus = jobStatus;
     }
 
     public CarStatus getCarStatus() {
@@ -171,58 +166,61 @@ public class Valet {
     public void setCarStatus(CarStatus carStatus) {
         this.carStatus = carStatus;
     }
-    public User getUser() {
-        return user;
+
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Valet valet)) return false;
-        return Objects.equals(getId(), valet.getId())
-                && Objects.equals(getBrand(), valet.getBrand())
-                && Objects.equals(getModel(), valet.getModel())
-                && Objects.equals(getColor(), valet.getColor())
-                && Objects.equals(getRegNumber(), valet.getRegNumber())
-                && Objects.equals(getChassisNumber(), valet.getChassisNumber())
-                && Objects.equals(getKeysNumber(), valet.getKeysNumber())
-                && Objects.equals(getCustomerName(), valet.getCustomerName())
-                && getJobStatus() == valet.getJobStatus()
-                && Objects.equals(getG3ProtectionRequired(), valet.getG3ProtectionRequired())
-                && Objects.equals(getValetComments(), valet.getValetComments())
-                && Objects.equals(getPolishMachineRequired(), valet.getPolishMachineRequired())
-                && Objects.equals(getDateRequired(), valet.getDateRequired())
-                && getCarStatus() == valet.getCarStatus();
+        if (!(o instanceof ValetCompletedDto that)) return false;
+        return isG3ProtectionRequired() == that.isG3ProtectionRequired()
+                && isPolishMachineRequired() == that.isPolishMachineRequired()
+                && Objects.equals(getId(), that.getId())
+                && Objects.equals(getBrand(), that.getBrand())
+                && Objects.equals(getModel(), that.getModel())
+                && Objects.equals(getColor(), that.getColor())
+                && Objects.equals(getRegNumber(), that.getRegNumber())
+                && Objects.equals(getChassisNumber(), that.getChassisNumber())
+                && Objects.equals(getKeysNumber(), that.getKeysNumber())
+                && Objects.equals(getCustomerName(), that.getCustomerName())
+                && Objects.equals(getValetComments(), that.getValetComments())
+                && Objects.equals(getDateRequired(), that.getDateRequired())
+                && getJobStatus() == that.getJobStatus()
+                && getCarStatus() == that.getCarStatus()
+                && Objects.equals(getDateCreated(), that.getDateCreated());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getBrand(), getModel(), getColor(), getRegNumber(), getChassisNumber(), getKeysNumber(),
-                getCustomerName(), getJobStatus(), getG3ProtectionRequired(), getValetComments(), getPolishMachineRequired(),
-                getDateRequired(), getCarStatus());
+                getCustomerName(), isG3ProtectionRequired(), isPolishMachineRequired(), getValetComments(), getDateRequired(),
+                getJobStatus(), getCarStatus(), getDateCreated());
     }
 
     @Override
     public String toString() {
-        return "Valet{" +
+        return "ValetCompletedDto{" +
                 "id=" + id +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", color='" + color + '\'' +
-                ", reg_number='" + regNumber + '\'' +
-                ", chassis_number='" + chassisNumber + '\'' +
-                ", keys_number=" + keysNumber +
-                ", customer_name='" + customerName + '\'' +
-                ", job_status=" + jobStatus +
-                ", g3_protection_required=" + g3ProtectionRequired +
-                ", valet_comments='" + valetComments + '\'' +
-                ", polish_machine_required=" + polishMachineRequired +
-                ", date_required=" + dateRequired +
-                ", car_status=" + carStatus +
+                ", regNumber='" + regNumber + '\'' +
+                ", chassisNumber='" + chassisNumber + '\'' +
+                ", keysNumber=" + keysNumber +
+                ", customerName='" + customerName + '\'' +
+                ", g3ProtectionRequired=" + g3ProtectionRequired +
+                ", polishMachineRequired=" + polishMachineRequired +
+                ", valetComments='" + valetComments + '\'' +
+                ", dateRequired=" + dateRequired +
+                ", jobStatus=" + jobStatus +
+                ", carStatus=" + carStatus +
+                ", dateCreated=" + dateCreated +
                 '}';
     }
 }

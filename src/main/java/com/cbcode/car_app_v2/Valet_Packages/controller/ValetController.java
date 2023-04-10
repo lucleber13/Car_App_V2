@@ -18,17 +18,22 @@ public class ValetController {
     public ValetController(ValetService valetService) {
         this.valetService = valetService;
     }
+
     // This method is called from the JobForms class. Then the valetDto is added to the JobFormsDto.
     @PostMapping("/add-valet")
     public ResponseEntity<ValetDto> addValet(@RequestBody ValetDto savedValetDto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(valetService.addValet(savedValetDto));
+            return ResponseEntity.ok().body(valetService.addValet(savedValetDto));
     }
 
     // This method is used to update a valet job. We are using the model mapper to map the valetDto to the Valet entity.
     // We are then saving the valet to the database and returning the valetDto.
     @PutMapping("/update-valet")
-    public void updateValet(@RequestBody ValetDto valetDto){
-        valetService.updateValet(valetDto);
+    public ResponseEntity<ValetDto> updateValet(@RequestBody ValetDto valetDto){
+        try {
+            return ResponseEntity.ok().body(valetService.updateValet(valetDto));
+        } catch (Exception e) {
+            throw new ValetNotFoundException("Valet job with ID " + valetDto.getId() + " not found");
+        }
     }
 
     // This method is used to delete a valet job. We are using the model mapper to map the valetDto to the Valet entity.

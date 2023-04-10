@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "valet_completed")
@@ -37,16 +38,26 @@ public class ValetCompleted {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateCreated; // date when the car sold will be handed over to the customer
 
-    @ManyToOne
-    @JoinColumn(name = "valet_id")
-    private Valet valet;
-
-    public Valet getValet() {
-        return valet;
+    public ValetCompleted() {
     }
 
-    public void setValet(Valet valet) {
-        this.valet = valet;
+    public ValetCompleted(String brand, String model, String color, String regNumber, String chassisNumber, Integer keysNumber,
+                          String customerName, boolean g3ProtectionRequired, boolean polishMachineRequired, String valetComments,
+                          Date dateRequired, JobStatus jobStatus, CarStatus carStatus, LocalDateTime dateCreated) {
+        this.brand = brand;
+        this.model = model;
+        this.color = color;
+        this.regNumber = regNumber;
+        this.chassisNumber = chassisNumber;
+        this.keysNumber = keysNumber;
+        this.customerName = customerName;
+        this.g3ProtectionRequired = g3ProtectionRequired;
+        this.polishMachineRequired = polishMachineRequired;
+        this.valetComments = valetComments;
+        this.dateRequired = dateRequired;
+        this.jobStatus = jobStatus;
+        this.carStatus = carStatus;
+        this.dateCreated = dateCreated;
     }
 
     public Long getId() {
@@ -167,5 +178,55 @@ public class ValetCompleted {
 
     public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ValetCompleted that)) return false;
+        return isG3ProtectionRequired() == that.isG3ProtectionRequired()
+                && isPolishMachineRequired() == that.isPolishMachineRequired()
+                && Objects.equals(getId(), that.getId())
+                && Objects.equals(getBrand(), that.getBrand())
+                && Objects.equals(getModel(), that.getModel())
+                && Objects.equals(getColor(), that.getColor())
+                && Objects.equals(getRegNumber(), that.getRegNumber())
+                && Objects.equals(getChassisNumber(), that.getChassisNumber())
+                && Objects.equals(getKeysNumber(), that.getKeysNumber())
+                && Objects.equals(getCustomerName(), that.getCustomerName())
+                && Objects.equals(getValetComments(), that.getValetComments())
+                && Objects.equals(getDateRequired(), that.getDateRequired())
+                && getJobStatus() == that.getJobStatus()
+                && getCarStatus() == that.getCarStatus()
+                && Objects.equals(getDateCreated(), that.getDateCreated());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getBrand(), getModel(), getColor(), getRegNumber(), getChassisNumber(), getKeysNumber(),
+                getCustomerName(), isG3ProtectionRequired(), isPolishMachineRequired(), getValetComments(), getDateRequired(),
+                getJobStatus(), getCarStatus(), getDateCreated());
+    }
+
+    @Override
+    public String toString() {
+        return "ValetCompleted{" +
+                "id=" + id +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", color='" + color + '\'' +
+                ", regNumber='" + regNumber + '\'' +
+                ", chassisNumber='" + chassisNumber + '\'' +
+                ", keysNumber=" + keysNumber +
+                ", customerName='" + customerName + '\'' +
+                ", g3ProtectionRequired=" + g3ProtectionRequired +
+                ", polishMachineRequired=" + polishMachineRequired +
+                ", valetComments='" + valetComments + '\'' +
+                ", dateRequired=" + dateRequired +
+                ", jobStatus=" + jobStatus +
+                ", carStatus=" + carStatus +
+                ", dateCreated=" + dateCreated +
+                '}';
     }
 }

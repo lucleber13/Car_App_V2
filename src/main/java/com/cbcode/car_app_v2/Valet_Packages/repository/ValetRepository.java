@@ -8,7 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ValetRepository extends JpaRepository<Valet, Long> {
-
     Optional<Valet> findValetByRegNumberIgnoreCase(String regNumber);
-    Optional<Valet> findValetById(Long id);
 }
