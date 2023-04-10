@@ -1,31 +1,21 @@
-package com.cbcode.car_app_v2.Car_Package.model;
+package com.cbcode.car_app_v2.Car_Package.model.DTO;
 
-import jakarta.persistence.*;
-
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@SequenceGenerator(name = "car_seq", sequenceName = "car_seq", initialValue = 1, allocationSize = 1)
-public abstract class Car implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car_seq")
+public class CarDto {
     private Long id;
     private String brand;
     private String model;
     private String color;
-    @Column(unique = true)
     private String regNumber;
     private String chassisNumber;
     private Integer keysNumber;
-    public Car() {
+
+    public CarDto() {
     }
 
-    public Car(String brand, String model, String color, String regNumber, String chassisNumber, Integer keysNumber) {
+    public CarDto(Long id, String brand, String model, String color, String regNumber, String chassisNumber, Integer keysNumber) {
+        this.id = id;
         this.brand = brand;
         this.model = model;
         this.color = color;
@@ -90,17 +80,18 @@ public abstract class Car implements Serializable {
         this.keysNumber = keysNumber;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Car car)) return false;
-        return Objects.equals(getId(), car.getId())
-                && Objects.equals(getBrand(), car.getBrand())
-                && Objects.equals(getModel(), car.getModel())
-                && Objects.equals(getColor(), car.getColor())
-                && Objects.equals(getRegNumber(), car.getRegNumber())
-                && Objects.equals(getChassisNumber(), car.getChassisNumber())
-                && Objects.equals(getKeysNumber(), car.getKeysNumber());
+        if (!(o instanceof CarDto carDto)) return false;
+        return Objects.equals(getId(), carDto.getId())
+                && Objects.equals(getBrand(), carDto.getBrand())
+                && Objects.equals(getModel(), carDto.getModel())
+                && Objects.equals(getColor(), carDto.getColor())
+                && Objects.equals(getRegNumber(), carDto.getRegNumber())
+                && Objects.equals(getChassisNumber(), carDto.getChassisNumber())
+                && Objects.equals(getKeysNumber(), carDto.getKeysNumber());
     }
 
     @Override
@@ -108,9 +99,10 @@ public abstract class Car implements Serializable {
         return Objects.hash(getId(), getBrand(), getModel(), getColor(), getRegNumber(), getChassisNumber(),
                 getKeysNumber());
     }
+
     @Override
     public String toString() {
-        return "Car{" +
+        return "CarDto{" +
                 "id=" + id +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
