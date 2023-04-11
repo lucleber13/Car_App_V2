@@ -78,5 +78,21 @@ public class ExceptionsHandlerCarApp {
         errors.put("error", ex.getMessage());
         return errors;
     }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(WorkshopNotCreatedException.class)
+    public Map<String, String> workshopNotCreatedException(
+            WorkshopNotCreatedException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", ex.getMessage());
+        return errors;
+    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(WorkshopNotFoundException.class)
+    public Map<String, String> workshopNotFoundException(
+            WorkshopNotFoundException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", ex.getMessage());
+        return errors;
+    }
 
 }

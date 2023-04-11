@@ -43,7 +43,7 @@ public class ValetService implements IValetService {
     public ValetDto addValet(ValetDto savedValetDto) {
         try {
             Valet valet = modelMapper.map(savedValetDto, Valet.class);
-            Optional<Valet> optionalValet = valetRepository.findValetByRegNumberIgnoreCase(valet.getRegNumber().toUpperCase());
+            Optional<Valet> optionalValet = valetRepository.findValetByRegNumberIgnoreCase(valet.getRegNumber());
             if (optionalValet.isPresent()) {
                 throw new CarAlreadyExistsException("Car with registration number " + savedValetDto.getRegNumber() + " already exists!");
             } else {
@@ -117,10 +117,8 @@ public class ValetService implements IValetService {
                 throw new EntityNotFoundException("Valet not found");
             } else {
                 List<Valet> valets = valetRepository.findAll();
-                List<Valet> valetNewList = new ArrayList<>();
-                valetNewList = valets.stream()
-                        .map(valet1 ->
-                                modelMapper.map(valet1, Valet.class))
+                List<Valet> valetNewList = valets.stream()
+                        .map(valet1 -> modelMapper.map(valet1, Valet.class))
                         .collect(Collectors.toList());
                 List valetDtos = modelMapper.map(valetNewList, List.class);
                 return valetDtos;

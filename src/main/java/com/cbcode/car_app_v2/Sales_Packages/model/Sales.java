@@ -23,12 +23,12 @@ public class Sales{
     private String chassisNumber; // chassis number of the car
     private Integer keysNumber; // number of keys of the car
     private String customerName; // name of the customer who bought the car
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/London")
     @Temporal(TemporalType.DATE)
     private Date dateHandover; // date when the car is handed over to the customer
     @Enumerated(EnumType.STRING)
     private JobStatus jobStatus; // job status of the car is SOLD or STOCK.
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/London")
     @Temporal(TemporalType.DATE)
     private Date dateRequired; // date when the car sold will be handed over to the customer
     @Enumerated(EnumType.STRING)

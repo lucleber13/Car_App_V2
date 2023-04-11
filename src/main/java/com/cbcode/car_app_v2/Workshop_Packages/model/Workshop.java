@@ -8,12 +8,13 @@ import com.cbcode.car_app_v2.User_Packages.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 @Entity(name = "Workshop")
 @Table(name = "workshop")
 @SequenceGenerator(name = "workshop_seq", sequenceName = "workshop_seq", allocationSize = 1)
-public class Workshop {
+public class Workshop implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workshop_seq")
     private Long id;
@@ -31,7 +32,7 @@ public class Workshop {
     private Set<WorkshopJobsOptions> workshopJobsOptions; // options for the workshop job to be done.
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus; // status of the car in the process of works to be done.
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/London")
     @Temporal(TemporalType.DATE)
     private Date dateRequired; // date when the car sold will be handed over to the customer
     @ManyToOne(cascade = CascadeType.ALL)
