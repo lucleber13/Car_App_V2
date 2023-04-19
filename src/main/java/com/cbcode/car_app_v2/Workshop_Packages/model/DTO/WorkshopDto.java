@@ -24,13 +24,14 @@ public class WorkshopDto implements Serializable {
     private Integer keysNumber; // number of keys of the car
     private String customerName; // name of the customer who bought the car
     private String workshopComments; // comments for the workshop job to be done.
+    @Column(nullable = true)
     @Enumerated(EnumType.STRING)
     private JobStatus jobStatus; // job status of the car is SOLD or STOCK.
     @Enumerated(EnumType.STRING)
     private Set<WorkshopJobsOptions> workshopJobsOptions; // options for the workshop job to be done.
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus; // status of the car in the process of works to be done.
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/London")
     @Temporal(TemporalType.DATE)
     private Date dateRequired; // date when the car sold will be handed over to the customer.
     private UserDto users; // user object to be used in the workshop job process to be done.
