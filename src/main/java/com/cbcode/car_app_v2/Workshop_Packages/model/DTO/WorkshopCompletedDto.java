@@ -1,21 +1,21 @@
-package com.cbcode.car_app_v2.Workshop_Packages.model;
+package com.cbcode.car_app_v2.Workshop_Packages.model.DTO;
 
 import com.cbcode.car_app_v2.Enums.CarStatus;
 import com.cbcode.car_app_v2.Enums.JobStatus;
 import com.cbcode.car_app_v2.Enums.WorkshopJobsOptions;
+import com.cbcode.car_app_v2.Workshop_Packages.model.WorkshopCompleted;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-@Entity
-@Table(name = "workshop_completed")
-@SequenceGenerator(name = "workshop_completed_seq", sequenceName = "workshop_completed_seq", allocationSize = 1)
-public class WorkshopCompleted {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workshop_completed_seq")
+
+public class WorkshopCompletedDto {
     private Long id;
     private String brand; // brand of the car
     private String model; // model of the car
@@ -38,10 +38,10 @@ public class WorkshopCompleted {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateCreated; // date when the workshop job is completed.
 
-    public WorkshopCompleted() {
+    public WorkshopCompletedDto() {
     }
 
-    public WorkshopCompleted(Long id, String brand, String model, String color, String regNumber, String chassisNumber, Integer keysNumber, String customerName,
+    public WorkshopCompletedDto(Long id, String brand, String model, String color, String regNumber, String chassisNumber, Integer keysNumber, String customerName,
                              String workshopComments, JobStatus jobStatus, Set<WorkshopJobsOptions> workshopJobsOptions, CarStatus carStatus, Date dateRequired,
                              LocalDateTime dateCreated) {
         this.id = id;

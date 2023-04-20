@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -74,6 +75,21 @@ public class ValetCompletedService {
     public void deleteValetCompleted() {
            LocalDateTime dateThreshold = LocalDateTime.now().minusDays(61);
             valetCompletedRepository.deleteValetCompletedByDateCreatedBefore(dateThreshold);
+    }
+
+    /**
+     *
+     * @param regNumber
+     * @return List<ValetCompletedDto>
+     */
+    public List<ValetCompletedDto> getValetedByRegNumber(String regNumber) {
+        Optional<ValetCompleted> valetCompleted = valetCompletedRepository.findValetCompletedByRegNumberIgnoreCase(regNumber);
+        if (!valetCompleted.isPresent()) {
+            throw new CarNotFoundException("No valets completed yet.");
+        } else {
+            ValetCompletedDto valetCompletedDto = modelMapper.map(valetCompleted.get(), ValetCompletedDto.class);
+            return List.of(valetCompletedDto);
+        }
     }
 
 }
