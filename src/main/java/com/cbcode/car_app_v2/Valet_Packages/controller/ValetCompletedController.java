@@ -24,8 +24,8 @@ public class ValetCompletedController {
     public ResponseEntity<List<ValetCompletedDto>> getAllValetsCompleted(){
         return ResponseEntity.ok().body(valetCompletedService.getAllValetsCompleted());
     }
-    @GetMapping("/valet-completed")
-    public ResponseEntity<List<ValetCompletedDto>> getValetCompleted(String regNumber){
+    @GetMapping("/valet-completed/{regNumber}")
+    public ResponseEntity<List<ValetCompletedDto>> getValetCompleted(@PathVariable(value="regNumber") String regNumber){
         return ResponseEntity.ok().body(valetCompletedService.getValetedByRegNumber(regNumber));
     }
 

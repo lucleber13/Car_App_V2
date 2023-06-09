@@ -4,6 +4,7 @@ import com.cbcode.car_app_v2.Workshop_Packages.model.DTO.WorkshopCompletedDto;
 import com.cbcode.car_app_v2.Workshop_Packages.model.DTO.WorkshopDto;
 import com.cbcode.car_app_v2.Workshop_Packages.service.impl.WorkshopCompletedService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +22,10 @@ public class WorkshopCompletedController {
     @RequestMapping("/all-workshop-completed")
     public ResponseEntity<List<WorkshopCompletedDto>> getAllWorkshopCompleted(){
         return ResponseEntity.ok().body(workshopCompletedService.getAllWorkshopCompleted());
+    }
+
+    @RequestMapping("/workshop-completed/{regNumber}")
+    public ResponseEntity<List<WorkshopCompletedDto>> getWorkshopCompleted(@PathVariable(value="regNumber") String regNumber){
+        return ResponseEntity.ok().body(workshopCompletedService.getWorkshopCompletedByRegNumber(regNumber));
     }
 }

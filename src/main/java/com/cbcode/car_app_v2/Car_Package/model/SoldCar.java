@@ -18,7 +18,7 @@ public class SoldCar extends Car {
 
     private boolean g3ProtectionRequired;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy", timezone="Europe/London")
     @Temporal(TemporalType.DATE)
     private Date dateRequired;
 

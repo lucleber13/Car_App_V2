@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +29,6 @@ public class WorkshopCompletedService {
      * This method will be called from the WorkshopCompletedController class.
      * It will add a workshop completed to the database.
      * It will use the model mapper to map the workshopCompletedDto to the WorkshopCompleted entity.
-     * @param workshopCompletedDto
      * @return WorkshopCompletedDto
      */
     public WorkshopCompletedDto addWorkshopCompleted(WorkshopCompletedDto workshopCompletedDto) {
@@ -66,5 +66,15 @@ public class WorkshopCompletedService {
     public void deleteWorkshopCompleted() {
         LocalDateTime dateThreshold = LocalDateTime.now().minusDays(61);
         workshopCompletedRepository.deleteWorkshopCompletedByDateCreatedBefore(dateThreshold);
+    }
+
+    public List<WorkshopCompletedDto> getWorkshopCompletedByRegNumber(String regNumber) {
+        Optional<WorkshopCompleted> workshopCompleted = workshopCompletedRepository.findWorkshopCompletedByRegNumberIgnoreCase(regNumber);
+        if (!workshopCompleted.isPresent()) {
+            throw new CarNotFoundException("No workshop completed yet.");
+        } else {
+            WorkshopCompletedDto workshopCompletedDto = modelMapper.map(workshopCompleted.get(), WorkshopCompletedDto.class);
+            return List.of(workshopCompletedDto);
+        }
     }
 }
