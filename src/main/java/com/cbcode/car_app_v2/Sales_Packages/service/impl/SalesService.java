@@ -4,11 +4,13 @@ import com.cbcode.car_app_v2.Sales_Packages.model.DTO.SalesDto;
 import com.cbcode.car_app_v2.Sales_Packages.model.Sales;
 import com.cbcode.car_app_v2.Sales_Packages.repository.SalesRepository;
 import com.cbcode.car_app_v2.Sales_Packages.service.ISalesService;
+import com.cbcode.car_app_v2.User_Packages.model.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.Streams.stream;
@@ -64,7 +66,20 @@ public class SalesService implements ISalesService {
      */
     @Override
     public SalesDto addSales(SalesDto salesDto) {
-        return null;
+        try {
+            Sales sales = modelMapper.map(salesDto, Sales.class);
+            Optional<Sales> optionalSales = salesRepository.findSalesByRegNumberIgnoreCase(sales.getRegNumber());
+            if (optionalSales.isPresent()) {
+                throw new IllegalStateException("Car with registration number " + salesDto.getRegNumber() + " already exists.");
+            } else {
+                User user = new User();
+                user.setId(user.getId());
+                Sales savedSales = salesRepository.save(sales);
+                return modelMapper.map(savedSales, SalesDto.class);
+            }
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Sales not found" + e.getMessage());
+        }
     }
 
     /**
@@ -135,6 +150,10 @@ public class SalesService implements ISalesService {
      */
     @Override
     public SalesDto getSalesByUserid(Long userId) {
-        return null;
+        Sales sales = salesRepository.findSalesById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Sales not found for user with ID: " + userId));
+
+        SalesDto salesDto = modelMapper.map(sales, SalesDto.class);
+        return salesDto;
     }
 }

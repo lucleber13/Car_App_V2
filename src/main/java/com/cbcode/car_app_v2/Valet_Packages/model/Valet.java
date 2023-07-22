@@ -37,7 +37,7 @@ public class Valet {
 
     @ManyToOne
     @JoinColumn(name = "users_id")
-    private User user;
+    private User users;
 
     public Valet() {
     }
@@ -171,12 +171,12 @@ public class Valet {
     public void setCarStatus(CarStatus carStatus) {
         this.carStatus = carStatus;
     }
-    public User getUser() {
-        return user;
+    public User getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(User users) {
+        this.users = users;
     }
 
     @Override

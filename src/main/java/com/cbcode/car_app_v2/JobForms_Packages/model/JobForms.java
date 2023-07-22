@@ -1,6 +1,5 @@
 package com.cbcode.car_app_v2.JobForms_Packages.model;
 
-import com.cbcode.car_app_v2.Car_Package.model.Car;
 import com.cbcode.car_app_v2.Enums.CarStatus;
 import com.cbcode.car_app_v2.Enums.JobStatus;
 import com.cbcode.car_app_v2.Enums.WorkshopJobsOptions;
@@ -22,24 +21,34 @@ public class JobForms {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "job_forms_seq")
     private Long id;
+    @Column(nullable = false)
     private String brand; // brand of the car
+    @Column(nullable = false)
     private String model; // model of the car
+    @Column(nullable = false)
     private String color; // color of the car
+    @Column(unique = true, nullable = false)
     private String regNumber; // registration number of the car
+    @Column(unique = true, nullable = false)
     private String chassisNumber; // chassis number of the car
+    @Column(nullable = false)
     private Integer keysNumber; // number of keys of the car
     private String customerName; // name of the customer who bought the car
     private String valetComments; // comments for the valet job to be done.
     private String workshopComments; // comments for the workshop job to be done.
     private Boolean g3ProtectionRequired; // g3 protection application on car
     private Boolean polishMachineRequired; // polish machine required for the job.
+    @Column(nullable = false)
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date dateRequired; // date when the car sold will be handed over to the customer
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus; // status of the car in the process of works to be done.
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private JobStatus jobStatus; // job status of the car is SOLD or STOCK.
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Set<WorkshopJobsOptions> workshopJobsOptions; // options for the workshop job to be done.
     @ManyToOne

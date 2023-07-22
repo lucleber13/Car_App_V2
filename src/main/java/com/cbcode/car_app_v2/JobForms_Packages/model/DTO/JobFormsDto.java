@@ -1,13 +1,8 @@
 package com.cbcode.car_app_v2.JobForms_Packages.model.DTO;
 
-import com.cbcode.car_app_v2.Car_Package.model.DTO.CarDto;
 import com.cbcode.car_app_v2.Enums.CarStatus;
 import com.cbcode.car_app_v2.Enums.JobStatus;
 import com.cbcode.car_app_v2.Enums.WorkshopJobsOptions;
-import com.cbcode.car_app_v2.Sales_Packages.model.DTO.SalesDto;
-import com.cbcode.car_app_v2.User_Packages.model.User;
-import com.cbcode.car_app_v2.Valet_Packages.model.DTO.ValetDto;
-import com.cbcode.car_app_v2.Workshop_Packages.model.DTO.WorkshopDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 

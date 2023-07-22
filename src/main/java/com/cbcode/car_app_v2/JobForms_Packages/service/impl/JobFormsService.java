@@ -5,13 +5,17 @@ import com.cbcode.car_app_v2.JobForms_Packages.model.DTO.JobFormsDto;
 import com.cbcode.car_app_v2.JobForms_Packages.model.JobForms;
 import com.cbcode.car_app_v2.JobForms_Packages.repository.JobFormsRepository;
 import com.cbcode.car_app_v2.JobForms_Packages.service.IJobFormsService;
+import com.cbcode.car_app_v2.Sales_Packages.model.DTO.SalesDto;
+import com.cbcode.car_app_v2.Sales_Packages.model.Sales;
 import com.cbcode.car_app_v2.Sales_Packages.service.impl.SalesService;
+import com.cbcode.car_app_v2.User_Packages.model.User;
 import com.cbcode.car_app_v2.Valet_Packages.service.impl.ValetService;
 import com.cbcode.car_app_v2.Workshop_Packages.service.impl.WorkshopService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobFormsService implements IJobFormsService {
@@ -35,12 +39,26 @@ public class JobFormsService implements IJobFormsService {
      * @return
      */
     @Override
-    public JobForms addJobCreation(JobFormsDto jobFormsDto) {
+    public JobForms createJobForm(JobFormsDto jobFormsDto) {
         // Map the DTO to the entity
         JobForms jobForms = modelMapper.map(jobFormsDto, JobForms.class);
 
+        // Check if the car already exists
+        Optional<JobForms> jobFormsOptional = jobFormsRepository.findJobCreationByRegNumberIgnoreCase(jobFormsDto.getRegNumber());
+        if (jobFormsOptional.isPresent()) {
+            throw new IllegalStateException("Car with registration number " + jobFormsDto.getRegNumber() + " already exists.");
+        }
+        User user = new User();
+        user.setId(user.getId());
+
         // Save the entity to the repository
         JobForms savedJobForms = jobFormsRepository.save(jobForms);
+
+        // Map the entity to the DTO
+        SalesDto salesDto = modelMapper.map(jobFormsDto, SalesDto.class);
+        salesService.addSales(salesDto);
+
+
         // Return the saved entity
         return savedJobForms;
     }
@@ -50,68 +68,8 @@ public class JobFormsService implements IJobFormsService {
      * @return
      */
     @Override
-    public JobForms updateJobCreation(JobFormsDto jobFormsDto) {
+    public JobForms updateJobForm(JobFormsDto jobFormsDto) {
         return null;
     }
 
-    /**
-     * @return
-     */
-    @Override
-    public List<JobForms> findAllJobCreations() {
-        return null;
-    }
-
-    /**
-     * @param id
-     */
-    @Override
-    public void deleteJobCreation(Long id) {
-
-    }
-
-    /**
-     * @param id
-     * @return
-     */
-    @Override
-    public JobForms findJobCreationById(Long id) {
-        return null;
-    }
-
-    /**
-     * @param user_id
-     * @return
-     */
-    @Override
-    public JobForms findJobCreationByUser_id(Long user_id) {
-        return null;
-    }
-
-    /**
-     * @param reg_number
-     * @return
-     */
-    @Override
-    public JobForms findJobCreationByReg_number(String reg_number) {
-        return null;
-    }
-
-    /**
-     * @param chassis_number
-     * @return
-     */
-    @Override
-    public JobForms findJobCreationByChassis_number(String chassis_number) {
-        return null;
-    }
-
-    /**
-     * @param model
-     * @return
-     */
-    @Override
-    public JobForms findJobCreationByModel(String model) {
-        return null;
-    }
 }

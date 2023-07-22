@@ -144,7 +144,7 @@ public class Workshop implements Serializable {
         return workshopJobsOptions;
     }
 
-    public void setWorshopJobsOptions(Set<WorkshopJobsOptions> workshopJobsOptions) {
+    public void setWorkshopJobsOptions(Set<WorkshopJobsOptions> workshopJobsOptions) {
         this.workshopJobsOptions = workshopJobsOptions;
     }
 
