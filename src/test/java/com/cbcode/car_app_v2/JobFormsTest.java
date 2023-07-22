@@ -51,7 +51,7 @@ public class JobFormsTest {
         jobForms.setWorkshopJobsOptions(options);
 
         User mockUser = new User();
-        mockUser.setId(1L);
+        mockUser.setId(1);
         mockUser.setFirstName("John");
         mockUser.setLastName("Doe");
         mockUser.setEmail("john@email.com");

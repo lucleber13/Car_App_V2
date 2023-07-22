@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    private Long id;
+    private Integer id;
     @NotNull
     @NotBlank
     private String firstName;
@@ -27,6 +27,8 @@ public class User {
     @NotBlank
     private String password;
 
+
+
     public User() {
     }
 
@@ -37,11 +39,11 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
