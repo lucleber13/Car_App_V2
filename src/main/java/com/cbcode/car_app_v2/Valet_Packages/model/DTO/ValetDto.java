@@ -2,7 +2,7 @@ package com.cbcode.car_app_v2.Valet_Packages.model.DTO;
 
 import com.cbcode.car_app_v2.Enums.CarStatus;
 import com.cbcode.car_app_v2.Enums.JobStatus;
-import com.cbcode.car_app_v2.User_Packages.model.DTO.UserDto;
+import com.cbcode.car_app_v2.User_Packages.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
@@ -30,7 +30,7 @@ public class ValetDto {
     private JobStatus jobStatus = null; // job status of the car is SOLD or STOCK.
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus; // status of the car in the process of works to be done.
-    private UserDto users; // user who is assigned to the job.
+    private User users; // user who is assigned to the job.
 
     public ValetDto() {
     }
@@ -166,11 +166,11 @@ public class ValetDto {
         this.carStatus = car_status;
     }
 
-    public UserDto getUsers() {
+    public User getUsers() {
         return users;
     }
 
-    public void setUsers(UserDto users) {
+    public void setUsers(User users) {
         this.users = users;
     }
 

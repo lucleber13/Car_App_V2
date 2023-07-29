@@ -30,7 +30,7 @@ public class WorkshopService implements IWorkshopService {
      * @return
      */
     @Override
-    public WorkshopDto addWorkshop(WorkshopDto workshopDto) {
+    public WorkshopDto addCarToWorkshop(WorkshopDto workshopDto) {
         try {
             Workshop workshop = modelMapper.map(workshopDto, Workshop.class);
             Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshopByRegNumberIgnoreCase(workshop.getRegNumber());
@@ -50,7 +50,7 @@ public class WorkshopService implements IWorkshopService {
      * @return
      */
     @Override
-    public WorkshopDto updateWorkshop(WorkshopDto workshopDto) {
+    public WorkshopDto updateCarInWorkshop(WorkshopDto workshopDto) {
         try {
             Optional<Workshop> optionalWorkshop = workshopRepository.findById(workshopDto.getId());
             if (!optionalWorkshop.isPresent()) {
@@ -88,7 +88,7 @@ public class WorkshopService implements IWorkshopService {
      * Get all cars in workshop as a list of cars.
      */
     @Override
-    public List<WorkshopDto> getAllWorkshops() {
+    public List<WorkshopDto> getAllCarsInWorkshops() {
         try {
             Workshop workshop = modelMapper.map(workshopRepository.findAll(), Workshop.class);
             if (workshop == null) {
@@ -110,7 +110,7 @@ public class WorkshopService implements IWorkshopService {
      * @return WorkshopDto
      */
     @Override
-    public WorkshopDto getWorkshopById(Long id) {
+    public WorkshopDto getCarInWorkshopById(Long id) {
         try {
             Optional<Workshop> optionalWorkshop = workshopRepository.findById(id);
             if (!optionalWorkshop.isPresent()) {
@@ -148,7 +148,7 @@ public class WorkshopService implements IWorkshopService {
      * @return
      */
     @Override
-    public WorkshopDto startsWorkshop(WorkshopDto workshopDto) {
+    public WorkshopDto startsJobWorkshop(WorkshopDto workshopDto) {
         Workshop workshop = modelMapper.map(workshopDto, Workshop.class);
         workshop.setJobStatus(JobStatus.STARTS);
         workshopRepository.save(workshop);
@@ -160,7 +160,7 @@ public class WorkshopService implements IWorkshopService {
      * @return
      */
     @Override
-    public WorkshopDto finishingWorkshop(WorkshopDto workshopDto) {
+    public WorkshopDto finishingJobWorkshop(WorkshopDto workshopDto) {
         return null;
     }
 }

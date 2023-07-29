@@ -48,11 +48,14 @@ public class JobFormsService implements IJobFormsService {
         if (jobFormsOptional.isPresent()) {
             throw new IllegalStateException("Car with registration number " + jobFormsDto.getRegNumber() + " already exists.");
         }
-        User user = new User();
-        user.setId(user.getId());
+
+
+
 
         // Save the entity to the repository
         JobForms savedJobForms = jobFormsRepository.save(jobForms);
+
+
 
         // Map the entity to the DTO
         SalesDto salesDto = modelMapper.map(jobFormsDto, SalesDto.class);

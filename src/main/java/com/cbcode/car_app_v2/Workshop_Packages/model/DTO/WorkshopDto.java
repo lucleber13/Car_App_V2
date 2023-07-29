@@ -1,10 +1,8 @@
 package com.cbcode.car_app_v2.Workshop_Packages.model.DTO;
 
-import com.cbcode.car_app_v2.Car_Package.model.DTO.CarDto;
 import com.cbcode.car_app_v2.Enums.CarStatus;
 import com.cbcode.car_app_v2.Enums.JobStatus;
 import com.cbcode.car_app_v2.Enums.WorkshopJobsOptions;
-import com.cbcode.car_app_v2.User_Packages.model.DTO.UserDto;
 import com.cbcode.car_app_v2.User_Packages.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -34,7 +32,7 @@ public class WorkshopDto implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/London")
     @Temporal(TemporalType.DATE)
     private Date dateRequired; // date when the car sold will be handed over to the customer.
-    private UserDto users; // user object to be used in the workshop job process to be done.
+    private User users; // user object to be used in the workshop job process to be done.
 
     public WorkshopDto() {
     }
@@ -160,10 +158,10 @@ public class WorkshopDto implements Serializable {
     public void setDateRequired(Date dateRequired) {
         this.dateRequired = dateRequired;
     }
-    public UserDto getUsers() {
+    public User getUsers() {
         return users;
     }
-    public void setUsers(UserDto users) {
+    public void setUsers(User users) {
         this.users = users;
     }
 
